@@ -87,15 +87,15 @@ The generated quiz follows a strict JSON schema:
 {
   "quiz_metadata": {
     "title": "Quiz Title",
-    "difficulty_distribution": "2简单_3中等_0困难",
+    "difficulty_distribution": "2easy_3medium_0hard",
     "question_count": 5,
     "estimated_solve_time_minutes": 25
   },
   "questions": [
     {
       "id": "q001",
-      "type": "单选题",
-      "difficulty": "中等",
+      "type": "single_choice",
+      "difficulty": "medium",
       "stem": "Question text...",
       "options": { "A": "...", "B": "...", "C": "...", "D": "..." },
       "correct_answer": "B",
