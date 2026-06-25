@@ -62,6 +62,8 @@ async def api_generate(
     custom_requirements: str = Form(""),
     model: Optional[str] = Form(None),
     provider_id: Optional[str] = Form(None),
+    api_key: str = Form(""),
+    base_url: str = Form(""),
 ):
     """生成试卷 API。"""
     # 读取上传文件
@@ -88,6 +90,8 @@ async def api_generate(
         custom_requirements=custom_requirements,
         model=model,
         provider_id=provider_id,
+        api_key=api_key,
+        base_url=base_url,
     )
 
     if result.get("error"):
@@ -105,6 +109,8 @@ async def api_generate_download(
     custom_requirements: str = Form(""),
     model: Optional[str] = Form(None),
     provider_id: Optional[str] = Form(None),
+    api_key: str = Form(""),
+    base_url: str = Form(""),
 ):
     """生成试卷并直接下载 JSON 文件。"""
     raw = await file.read()
@@ -124,6 +130,8 @@ async def api_generate_download(
         custom_requirements=custom_requirements,
         model=model,
         provider_id=provider_id,
+        api_key=api_key,
+        base_url=base_url,
     )
 
     if result.get("error"):

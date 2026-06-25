@@ -197,6 +197,8 @@ def generate_quiz(
     custom_requirements: str = "",
     model: str | None = None,
     provider_id: str | None = None,
+    api_key: str = "",
+    base_url: str = "",
 ) -> dict[str, Any]:
     """生成试卷的主入口。
 
@@ -209,6 +211,8 @@ def generate_quiz(
         custom_requirements: 定制需求
         model: 覆盖默认模型
         provider_id: 指定 AI provider ID，为 None 使用默认
+        api_key: 直接传入 API Key（跳过配置文件）
+        base_url: 直接传入 Base URL（配合 api_key 使用）
 
     Returns:
         正常试卷 dict 或错误 dict
@@ -225,16 +229,26 @@ def generate_quiz(
     if error:
         return error
 
-    # 2. 解析 Provider
-    try:
-        provider_config = _resolve_provider_config(provider_id)
-    except ValueError as e:
-        return {
-            "error": True,
-            "message": str(e),
-            "error_type": "config_error",
-            "suggestion": "请检查 providers.json 和 .env 配置。",
+    # 2. 解析 Provider（优先使用直接传入的 api_key）
+    if api_key:
+        provider_config = {
+            "id": "custom",
+            "name": "Custom",
+            "type": "openai_compatible",
+            "api_key": api_key,
+            "base_url": base_url or "https://api.openai.com/v1",
+            "model": model or "gpt-4o",
         }
+    else:
+        try:
+            provider_config = _resolve_provider_config(provider_id)
+        except ValueError as e:
+            return {
+                "error": True,
+                "message": str(e),
+                "error_type": "config_error",
+                "suggestion": "请在 .env 中设置 API Key，或直接在界面中输入。",
+            }
 
     # 3. 构建消息并调用 API
     messages = build_messages(

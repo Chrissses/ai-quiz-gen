@@ -570,17 +570,27 @@
         </div>
       </div>
 
-      <!-- AI 厂商选择 -->
+      <!-- AI 厂商 & API 配置 -->
       <div class="row">
         <div class="form-group" style="flex:1;">
-          <label>🤖 AI Provider <span class="form-hint">select which AI to use</span></label>
+          <label>🤖 AI Provider <span class="form-hint">select AI vendor</span></label>
           <select id="provider_id" name="provider_id">
             <option value="">Loading...</option>
           </select>
         </div>
         <div class="form-group" style="flex:1;">
-          <label>🔧 Model <span class="form-hint">override default model (optional)</span></label>
-          <input type="text" id="model" name="model" placeholder="Auto (uses provider default)">
+          <label>🔧 Model <span class="form-hint">override model (optional)</span></label>
+          <input type="text" id="model" name="model" placeholder="Auto (provider default)">
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group" style="flex:1;">
+          <label>🔑 API Key <span class="form-hint">fill here, skip .env</span></label>
+          <input type="password" id="api_key" name="api_key" placeholder="sk-... or leave blank to use .env">
+        </div>
+        <div class="form-group" style="flex:1;">
+          <label>🌐 Base URL <span class="form-hint">API endpoint (optional)</span></label>
+          <input type="text" id="base_url" name="base_url" placeholder="Auto (OpenAI-compatible)">
         </div>
       </div>
 
@@ -709,6 +719,8 @@ $('#quiz-form').addEventListener('submit', async (e) => {
   formData.append('file', file); formData.append('count', $('#count').value); formData.append('difficulty', $('#difficulty').value); formData.append('types', selectedTypes); formData.append('custom_requirements', customReqs);
   const providerId = $('#provider_id').value; if (providerId) formData.append('provider_id', providerId);
   const modelOverride = $('#model').value; if (modelOverride) formData.append('model', modelOverride);
+  const apiKey = $('#api_key').value; if (apiKey) formData.append('api_key', apiKey);
+  const baseUrl = $('#base_url').value; if (baseUrl) formData.append('base_url', baseUrl);
   try {
     const resp = await fetch('/api/generate', { method: 'POST', body: formData });
     const data = await resp.json();

@@ -82,14 +82,15 @@ while ($true) {
     Clear-Host
     Write-Host ""
     Write-Host "+---------------------------------------------+"
-    Write-Host "|     AI Quiz Generator v1.1 (Multi-Provider)  |"
-    Write-Host "+---------------------------------------------+"
-    Write-Host "|  1. CLI  - Command line mode                 |"
-    Write-Host "|  2. Web  - Browser mode                      |"
-    Write-Host "|  3. Edit .env config                         |"
-    Write-Host "|  0. Exit                                     |"
-    Write-Host "+---------------------------------------------+"
-    Write-Host ""
+      Write-Host "|     AI Quiz Generator v1.1 (Multi-Provider)  |"
+      Write-Host "+---------------------------------------------+"
+      Write-Host "|  1. Web  - Browser mode (recommended)        |"
+      Write-Host "|  2. CLI  - Command line mode                 |"
+      Write-Host "|  3. Edit .env config                         |"
+      Write-Host "|  0. Exit                                     |"
+      Write-Host "+---------------------------------------------+"
+      Write-Host ""
+      Write-Host "  [TIP] Select 1 for the best experience!" -ForegroundColor Cyan
 
     $mode = Read-Host "Select [1/2/3/0]"
 
@@ -98,6 +99,20 @@ while ($true) {
         "3" { notepad .env; continue }
 
         "1" {
+            Clear-Host
+            Write-Host ""
+            Write-Host "-----------------------------------------------"
+            Write-Host "  Web Mode"
+            Write-Host "  Open http://localhost:8000 in your browser"
+            Write-Host "  Press Ctrl+C to stop the server"
+            Write-Host "-----------------------------------------------"
+            Write-Host ""
+
+            Start-Process "http://localhost:8000"
+            & $venvPy run_web.py
+        }
+
+        "2" {
             Clear-Host
             Write-Host ""
             Write-Host "-----------------------------------------------"
@@ -140,20 +155,6 @@ while ($true) {
             Write-Host ""
             Write-Host "-----------------------------------------------"
             Read-Host "Press Enter to return to menu"
-        }
-
-        "2" {
-            Clear-Host
-            Write-Host ""
-            Write-Host "-----------------------------------------------"
-            Write-Host "  Web Mode"
-            Write-Host "  Open http://localhost:8000 in your browser"
-            Write-Host "  Press Ctrl+C to stop the server"
-            Write-Host "-----------------------------------------------"
-            Write-Host ""
-
-            Start-Process "http://localhost:8000"
-            & $venvPy run_web.py
         }
 
         default {
