@@ -1,8 +1,8 @@
-# DeepSeek Quiz Generator
+# AI Quiz Generator
 
 > AI-powered quiz generator — upload a document, get a structured quiz in seconds.
 
-Built on a **multi-provider AI architecture**, this tool analyzes any text document and generates professionally structured quizzes with multiple question types, difficulty distribution, and detailed answer analysis. Supports DeepSeek, OpenAI, Claude, Gemini, Qwen, Zhipu, Moonshot, and any OpenAI-compatible API.
+Built on a **multi-provider AI architecture**, this tool analyzes any text document and generates professionally structured quizzes with multiple question types, difficulty distribution, and detailed answer analysis. Supports OpenAI, Claude, Gemini, DeepSeek, Qwen, Zhipu, Moonshot, and any OpenAI-compatible API.
 
 ![](https://img.shields.io/badge/Python-3.10%2B-blue) ![](https://img.shields.io/badge/FastAPI-0.115%2B-green) ![](https://img.shields.io/badge/Multi--Provider-purple)
 
@@ -15,7 +15,7 @@ Built on a **multi-provider AI architecture**, this tool analyzes any text docum
 - **Interactive Quiz Mode** — Take the quiz in-browser with real-time scoring and feedback
 - **Dark Cyberpunk Theme** — Neon-accented dark mode UI
 - **Bilingual Support** — UI in English; quiz language follows your document
-- **🆕 Multi-Provider Support** — Switch between DeepSeek / OpenAI / Claude / Gemini / Qwen / Zhipu / Moonshot
+- **🆕 Multi-Provider Support** — Switch between OpenAI / Claude / Gemini / DeepSeek / Qwen / Zhipu / Moonshot
 
 ## Quick Start
 
@@ -73,7 +73,7 @@ Double-click `start.bat` — auto-creates virtual environment, installs dependen
 | `-n, --count` | Number of questions (5-50) | 5 |
 | `-d, --difficulty` | simple / medium / hard / mixed | mixed |
 | `-t, --types` | Comma-separated: 单选题,多选题,填空题,简答题 | 单选题,填空题 |
-| `-p, --provider` | Provider ID (deepseek/openai/claude/gemini/...) | default in providers.json |
+| `-p, --provider` | Provider ID (openai/claude/gemini/deepseek/...) | default in providers.json |
 | `-m, --model` | Override default model | provider default |
 | `-r, --require` | Custom requirements | — |
 | `-o, --output` | Output JSON path | auto-named |
@@ -98,7 +98,7 @@ Configure providers in `providers.json`. Each provider entry:
 
 | Type | Description | Examples |
 |------|-------------|----------|
-| `openai_compatible` | OpenAI-compatible API | DeepSeek, OpenAI, Qwen, Zhipu, Moonshot, Ollama, vLLM |
+| `openai_compatible` | OpenAI-compatible API | OpenAI, DeepSeek, Qwen, Zhipu, Moonshot, Ollama, vLLM |
 | `anthropic` | Anthropic Messages API | Claude 3.5 Sonnet, Claude 3 Opus |
 | `gemini` | Google Generative AI | Gemini 2.0 Flash, Gemini 1.5 Pro |
 
@@ -107,7 +107,7 @@ API keys use `${ENV_VAR}` syntax — values are read from `.env` at runtime.
 ## Project Structure
 
 ```
-deepseek-quiz-gen/
+quiz-gen/
 ├── src/
 │   ├── providers/             # AI provider abstraction layer
 │   │   ├── base.py            # Abstract base class

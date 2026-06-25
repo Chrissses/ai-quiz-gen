@@ -9,8 +9,8 @@ import typer
 from .generator import generate_quiz, list_available_providers
 
 app = typer.Typer(
-    name="deepseek-quiz",
-    help="基于 AI 的智能出题工具 —— 根据文档自动生成结构化试卷 JSON。支持 DeepSeek / OpenAI / Claude / Gemini 等多厂商。",
+    name="quizgen",
+    help="AI 智能出题工具 —— 根据文档自动生成结构化试卷 JSON。支持 OpenAI / Claude / Gemini / DeepSeek 等多厂商。",
     add_completion=False,
 )
 
@@ -55,7 +55,7 @@ def generate(
         None,
         "--provider",
         "-p",
-        help="指定 AI 厂商 ID（如 deepseek / openai / claude / gemini），不指定则使用默认",
+        help="指定 AI 厂商 ID（如 openai / claude / gemini / deepseek），不指定则使用默认",
     ),
     pretty: bool = typer.Option(
         True,
@@ -145,7 +145,7 @@ def version():
     """显示版本信息。"""
     from . import __version__
 
-    typer.echo(f"DeepSeek Quiz Generator v{__version__}")
+    typer.echo(f"AI Quiz Generator v{__version__}")
 
 
 def main():

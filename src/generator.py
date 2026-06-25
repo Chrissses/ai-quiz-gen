@@ -247,7 +247,7 @@ def generate_quiz(
     )
 
     provider = create_provider(provider_config)
-    effective_model = model or provider_config.get("model", "deepseek-chat")
+    effective_model = model or provider_config.get("model", "")
 
     try:
         raw_content = provider.generate(

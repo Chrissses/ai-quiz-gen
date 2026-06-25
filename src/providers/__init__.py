@@ -3,7 +3,7 @@
 使用方式:
     from src.providers import create_provider
     provider = create_provider(provider_config)
-    text = provider.generate(messages, model="deepseek-chat")
+    text = provider.generate(messages, model="gpt-4o")
 """
 
 from .base import BaseProvider, ProviderError

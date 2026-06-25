@@ -13,7 +13,7 @@ from starlette.requests import Request
 
 from .generator import generate_quiz, list_available_providers
 
-app = FastAPI(title="DeepSeek Quiz Generator", version="1.1.0")
+app = FastAPI(title="AI Quiz Generator", version="1.1.0")
 
 # ── 静态文件 & 模板 ───────────────────────────────────────────────────────
 

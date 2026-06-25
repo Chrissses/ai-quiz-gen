@@ -57,20 +57,20 @@ def load_providers(config_path: Path | None = None) -> list[dict[str, Any]]:
     path = config_path or _CONFIG_PATH
 
     if not path.exists():
-        # 降级：无配置文件时，从环境变量构建单个 DeepSeek provider
-        api_key = os.getenv("DEEPSEEK_API_KEY", "")
-        if api_key:
-            return [
-                {
-                    "id": "deepseek",
-                    "name": "DeepSeek",
-                    "type": "openai_compatible",
-                    "api_key": api_key,
-                    "base_url": os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
-                    "model": os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
-                    "default": True,
-                }
-            ]
+    # 降级：无配置文件时，从环境变量构建单个默认 provider
+    api_key = os.getenv("DEEPSEEK_API_KEY", "")
+    if api_key:
+        return [
+            {
+                "id": "default",
+                "name": "Default (DeepSeek)",
+                "type": "openai_compatible",
+                "api_key": api_key,
+                "base_url": os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
+                "model": os.getenv("DEEPSEEK_MODEL", "deepseek-chat"),
+                "default": True,
+            }
+        ]
         return []
 
     raw = json.loads(path.read_text(encoding="utf-8"))

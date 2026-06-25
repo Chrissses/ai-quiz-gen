@@ -1,6 +1,6 @@
-# DeepSeek Quiz Generator - Launcher
+# AI Quiz Generator - Launcher
 $ErrorActionPreference = "Stop"
-$Host.UI.RawUI.WindowTitle = "DeepSeek Quiz Generator"
+$Host.UI.RawUI.WindowTitle = "AI Quiz Generator"
 Set-Location $PSScriptRoot
 
 # ── 检测 Python ──────────────────────────────────
