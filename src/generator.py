@@ -199,6 +199,7 @@ def generate_quiz(
     provider_id: str | None = None,
     api_key: str = "",
     base_url: str = "",
+    language: str = "auto",
 ) -> dict[str, Any]:
     """生成试卷的主入口。
 
@@ -213,6 +214,7 @@ def generate_quiz(
         provider_id: 指定 AI provider ID，为 None 使用默认
         api_key: 直接传入 API Key（跳过配置文件）
         base_url: 直接传入 Base URL（配合 api_key 使用）
+        language: 输出语言 — "auto" | "zh" | "en"
 
     Returns:
         正常试卷 dict 或错误 dict
@@ -269,6 +271,7 @@ def generate_quiz(
         question_types=question_types,
         source_filename=source_filename,
         custom_requirements=custom_requirements,
+        language=language,
     )
 
     provider = create_provider(provider_config)

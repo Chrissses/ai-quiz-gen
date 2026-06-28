@@ -64,6 +64,7 @@ async def api_generate(
     provider_id: Optional[str] = Form(None),
     api_key: str = Form(""),
     base_url: str = Form(""),
+    language: str = Form("auto"),
 ):
     """生成试卷 API。"""
     # 读取上传文件
@@ -92,6 +93,7 @@ async def api_generate(
         provider_id=provider_id,
         api_key=api_key,
         base_url=base_url,
+        language=language,
     )
 
     if result.get("error"):
@@ -111,6 +113,7 @@ async def api_generate_download(
     provider_id: Optional[str] = Form(None),
     api_key: str = Form(""),
     base_url: str = Form(""),
+    language: str = Form("auto"),
 ):
     """生成试卷并直接下载 JSON 文件。"""
     raw = await file.read()
@@ -132,6 +135,7 @@ async def api_generate_download(
         provider_id=provider_id,
         api_key=api_key,
         base_url=base_url,
+        language=language,
     )
 
     if result.get("error"):

@@ -750,16 +750,14 @@ $('#quiz-form').addEventListener('submit', async (e) => {
   const file = fileInput.files[0];
     if (!file) { showStatus('Please select a document', 'error'); return; }
   const selectedTypes = Array.from(document.querySelectorAll('input[name="qtype"]:checked')).map(cb => cb.value).join(',');
-  let customReqs = $('#custom_requirements').value;
   const lang = document.querySelector('input[name="lang"]:checked')?.value || 'auto';
-  if (lang === 'zh') { customReqs = customReqs ? customReqs + '；请用中文生成所有题目' : '请用中文生成所有题目'; }
-  else if (lang === 'en') { customReqs = customReqs ? customReqs + '；请用英文生成所有题目' : '请用英文生成所有题目'; }
+  let customReqs = $('#custom_requirements').value;
   const btn = $('#submit-btn');
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generating...';
   clearStatus(); hideResult();
   showLoading(['Analyzing document...','Parsing knowledge points...','Generating questions by difficulty...','Designing high-quality distractors...','Validating question quality...','Almost done...'], 2500);
   const formData = new FormData();
-  formData.append('file', file); formData.append('count', $('#count').value); formData.append('difficulty', $('#difficulty').value); formData.append('types', selectedTypes); formData.append('custom_requirements', customReqs);
+  formData.append('file', file); formData.append('count', $('#count').value); formData.append('difficulty', $('#difficulty').value); formData.append('types', selectedTypes); formData.append('custom_requirements', customReqs); formData.append('language', lang);
   const providerId = $('#provider_id').value; if (providerId) formData.append('provider_id', providerId);
   const modelOverride = $('#model').value; if (modelOverride) formData.append('model', modelOverride);
   const apiKey = $('#api_key').value; if (apiKey) formData.append('api_key', apiKey);

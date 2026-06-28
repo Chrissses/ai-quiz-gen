@@ -149,6 +149,7 @@ def build_user_prompt(
     question_types: list[str] | str,
     source_filename: str = "document.txt",
     custom_requirements: str = "",
+    language: str = "auto",
 ) -> str:
     """构建发送给 LLM 的用户消息。
 
@@ -159,6 +160,7 @@ def build_user_prompt(
         question_types: 题型列表，如 ["单选题","填空题"] 或 "单选题,填空题"
         source_filename: 源文件名
         custom_requirements: 定制需求文本
+        language: 输出语言 — "auto" | "zh" | "en"
 
     Returns:
         完整的用户提示词字符串
@@ -170,13 +172,26 @@ def build_user_prompt(
 
     parts = [
         "请根据以下文档内容生成试卷。",
+    ]
+
+    # 语言指令 — 放在最前面，最高优先级
+    lang_map = {
+        "zh": "⚠️ 语言要求：请使用【简体中文】生成所有题目、选项、解析和知识标签。禁止使用英文。",
+        "en": "⚠️ 语言要求：请使用【English】生成所有题目、选项、解析和知识标签。",
+    }
+    if language in lang_map:
+        parts.append(lang_map[language])
+    else:
+        parts.append("⚠️ 语言要求：请使用与文档内容相同的语言生成题目。")
+
+    parts.extend([
         "",
         "## 参数配置",
         f"- 题目数量: {question_count}",
         f"- 难度: {difficulty}",
         f"- 题目类型: {types_str}",
         f"- 源文件名: {source_filename}",
-    ]
+    ])
 
     if custom_requirements:
         parts.append(f"- 定制需求: {custom_requirements}")
@@ -201,6 +216,7 @@ def build_messages(
     question_types: list[str] | str,
     source_filename: str = "document.txt",
     custom_requirements: str = "",
+    language: str = "auto",
 ) -> list[dict[str, str]]:
     """构建完整的 messages 列表，可直接传给 OpenAI-compatible API。
 
@@ -226,6 +242,7 @@ def build_messages(
                 question_types=question_types,
                 source_filename=source_filename,
                 custom_requirements=custom_requirements,
+                language=language,
             ),
         },
     ]
