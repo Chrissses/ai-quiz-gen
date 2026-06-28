@@ -803,7 +803,7 @@ function renderResult(data) {
     } else if (q.type === '简答题') {
       html += '<div class="q-fill"><textarea class="fill-input fill-textarea" id="fill-' + qIdx + '" placeholder="Type your answer..." oninput="onAnswerChange(' + qIdx + ')"></textarea></div>';
     }
-    html += '<div class="q-feedback" id="feedback-' + qIdx + '" style="display:none;"><div class="q-answer"><span id="result-icon-' + qIdx + '"></span> <strong>Correct Answer:</strong> ' + esc(q.correct_answer) + '</div>';
+    html += '<div class="q-feedback" id="feedback-' + qIdx + '" style="display:none;"><div class="q-answer"><span id="result-icon-' + qIdx + '"></span> <strong>Correct Answer:</strong> ' + esc(fullAnswer(q)) + '</div>';
     if (q.analysis) {
       html += '<div class="q-analysis"><strong>Analysis:</strong> ' + esc(q.analysis.short) + '</div><div class="q-analysis" style="font-size:0.8rem;">' + esc(q.analysis.detailed) + '</div>';
       if (q.analysis.common_mistakes&&q.analysis.common_mistakes.length) html += '<div class="q-mistakes">⚠ Common Mistakes: ' + q.analysis.common_mistakes.map(esc).join(' / ') + '</div>';
@@ -867,6 +867,13 @@ function submitQuiz() {
 
 // Helpers
 function esc(s) { if (s==null) return ''; return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function fullAnswer(q) {
+  const ca = q.correct_answer || '';
+  if (!q.options) return ca;
+  if (q.type === '单选题') return (q.options[ca] ? ca + '. ' + q.options[ca] : ca);
+  if (q.type === '多选题') return ca.split(',').map(k => k.trim()).filter(k => q.options[k]).map(k => k + '. ' + q.options[k]).join('；');
+  return ca;
+}
 function hideResult() { $('#result-card').classList.add('result-hidden'); $('#result-card').classList.remove('result-visible'); }
 function toggleView(mode) { $('#rendered-view').style.display = (mode==='rendered')?'block':'none'; $('#raw-view').style.display = (mode==='raw')?'block':'none'; }
 function showStatus(m,c) { const e = $('#status'); e.textContent = m; e.className = 'status ' + (c||''); }
