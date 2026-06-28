@@ -692,7 +692,7 @@ async function loadProviders() {
     $('#provider_id').innerHTML = '<option value="">Failed to load</option>';
   }
 }
-loadProviders();
+document.addEventListener('DOMContentLoaded', loadProviders);
 
 // Type select all
 function toggleAllTypes() { const all = document.querySelectorAll('input[name="qtype"]'); const ac = Array.from(all).every(cb => cb.checked); all.forEach(cb => { cb.checked = !ac; }); document.getElementById('select-all-types').checked = !ac; }
