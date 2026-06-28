@@ -624,6 +624,17 @@
         </div>
       </div>
 
+      <div class="row">
+        <div class="form-group" style="flex:1;">
+          <label>🌐 Quiz Language <span class="form-hint">output language</span></label>
+          <div class="type-checkboxes" id="lang-group">
+            <label class="type-cb"><input type="radio" name="lang" value="auto" checked onchange="saveLang()"> Auto (follow doc)</label>
+            <label class="type-cb"><input type="radio" name="lang" value="zh" onchange="saveLang()"> 中文</label>
+            <label class="type-cb"><input type="radio" name="lang" value="en" onchange="saveLang()"> English</label>
+          </div>
+        </div>
+      </div>
+
       <div class="form-group">
         <label>💬 Custom Requirements <span class="form-hint">e.g. "no multiple choice", "focus on chapter 3"</span></label>
         <input type="text" id="custom_requirements" name="custom_requirements" placeholder="Enter custom requirements...">
@@ -680,7 +691,17 @@ function loadSettings() {
 function clearSettings() {
   LS_KEYS.forEach(k => { localStorage.removeItem('quizgen_' + k); });
   ['#api_key', '#base_url', '#model'].forEach(id => { const el = $(id); if (el) el.value = ''; });
+  localStorage.removeItem('quizgen_lang');
   showStatus('🔓 Settings cleared', 'success');
+}
+
+function saveLang() {
+  const lang = document.querySelector('input[name="lang"]:checked')?.value;
+  if (lang) localStorage.setItem('quizgen_lang', lang);
+}
+function loadLang() {
+  const saved = localStorage.getItem('quizgen_lang');
+  if (saved) { const el = document.querySelector('input[name="lang"][value="' + saved + '"]'); if (el) el.checked = true; }
 }
 
 // Load providers
@@ -713,6 +734,7 @@ async function loadProviders() {
 }
 document.addEventListener('DOMContentLoaded', () => {
   loadSettings();
+  loadLang();
   loadProviders();
 });
 
@@ -728,12 +750,10 @@ $('#quiz-form').addEventListener('submit', async (e) => {
   const file = fileInput.files[0];
     if (!file) { showStatus('Please select a document', 'error'); return; }
   const selectedTypes = Array.from(document.querySelectorAll('input[name="qtype"]:checked')).map(cb => cb.value).join(',');
-  // English quiz toggle
-  const isEnglish = document.getElementById('english-quiz')?.checked;
   let customReqs = $('#custom_requirements').value;
-  if (isEnglish) {
-    customReqs = customReqs ? customReqs + '；请用英文生成所有题目、选项、解析和标签' : '请用英文生成所有题目、选项、解析和标签';
-  }
+  const lang = document.querySelector('input[name="lang"]:checked')?.value || 'auto';
+  if (lang === 'zh') { customReqs = customReqs ? customReqs + '；请用中文生成所有题目' : '请用中文生成所有题目'; }
+  else if (lang === 'en') { customReqs = customReqs ? customReqs + '；请用英文生成所有题目' : '请用英文生成所有题目'; }
   const btn = $('#submit-btn');
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Generating...';
   clearStatus(); hideResult();
