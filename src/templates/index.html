@@ -795,7 +795,7 @@ function renderResult(data) {
       const it = q.type === '单选题' ? 'radio' : 'checkbox';
       html += '<div class="q-options">';
       for (const [k, v] of Object.entries(q.options)) {
-        html += '<label class="q-option q-option-clickable" data-q="' + qIdx + '" data-key="' + esc(k) + '"><input type="' + it + '" name="q' + qIdx + '" value="' + esc(k) + '" onchange="onAnswerChange(' + qIdx + ')"><span class="q-opt-label"><strong>' + esc(k) + '.</strong> ' + esc(v) + '</span></label>';
+        html += '<label class="q-option q-option-clickable" data-q="' + qIdx + '" data-key="' + esc(k) + '"><input type="' + it + '" name="q' + qIdx + '" value="' + esc(k) + '" onchange="onAnswerChange(' + qIdx + ')"><span class="q-opt-label">' + esc(v) + '</span></label>';
       }
       html += '</div>';
     } else if (q.type === '填空题') {
