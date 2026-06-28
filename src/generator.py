@@ -291,7 +291,7 @@ def generate_quiz(
     except Exception as e:
         err_msg = str(e)
         hint = "请检查 API Key 是否正确，以及 Base URL 是否匹配所选厂商。"
-        if "401" in err_msg or "invalid_api_key" in err_msg:
+        if "401" in err_msg or "invalid_api_key" in err_msg or "authentication_error" in err_msg or "Authentication Fails" in err_msg:
             hint = "API Key 无效或已过期。请确认：1) Key 正确 2) 所选厂商与 Key 匹配（如 OpenAI key 应选 OpenAI 厂商）"
         return {
             "error": True,

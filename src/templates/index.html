@@ -748,7 +748,7 @@ $('#quiz-form').addEventListener('submit', async (e) => {
   try {
     const resp = await fetch('/api/generate', { method: 'POST', body: formData });
     const data = await resp.json();
-    if (data.error) { showStatus('❌ ' + data.message + ' (' + data.error_type + ')', 'error'); }
+    if (data.error) { showStatus('❌ ' + data.message + '<br><span style="font-size:0.8rem;color:var(--warning)">💡 ' + (data.suggestion || '') + '</span>', 'error'); }
     else { showStatus('✅ Quiz generated!', 'success'); lastResult = data; renderResult(data); }
   } catch (err) { showStatus('❌ Request failed: ' + err.message, 'error'); }
   finally { hideLoading(); btn.disabled = false; btn.innerHTML = '🚀 Generate Quiz'; }
